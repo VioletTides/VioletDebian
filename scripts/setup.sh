@@ -10,7 +10,7 @@ VIM_DIR="$HOME"
 RANGER_DIR="$HOME./config/ranger"
 
 DIRECTORIES=("$ROOT_DIR" "$FONT_DIR" "$SUCKLESS_DIR" "$XINITRC_DIR" "$XSESSIONS_DIR" "$ALACRITTY_DIR" "$VIM_DIR" "$RANGER_DIR")
-DIRECTORIES_STR=("fonts" "suckless" "xinitrc" "xsessions" "alacritty config" "vim config" "ranger config")
+DIRECTORIES_STR=("root" "fonts" "suckless" "xinitrc" "xsessions" "alacritty config" "vim config" "ranger config")
 USER_DIRECTORIES=()
 
 # COPY CONFIGS INTO DEFAULT LOCATIONS
