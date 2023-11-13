@@ -25,7 +25,6 @@ sudo cp "$ROOT_DIR/fonts/"* "$FONT_DIR/"
 # Update the font cache
 sudo fc-cache -f -v
 
-
 # INSTALL PROGRAMS
 
 # Install Vim, Alacritty, Ranger, and Zsh
