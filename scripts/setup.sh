@@ -27,6 +27,17 @@ sudo cp "$ROOT_DIR/config/dwm/dwm.desktop" "/usr/share/xsessions"
 # Install Vim, Alacritty, Ranger, zsh, etc
 sudo apt-get install -y vim alacritty ranger zsh firefox-esr pipewire amixer
 
+# Install Rust (and Cargo)
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source $HOME/.cargo/env
+
+sudo apt-get install -y cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev libxrandr-dev libxi-dev libgl1-mesa-dev
+
+git clone https://github.com/alacritty/alacritty.git
+cd alacritty || exit
+sudo cp target/release/alacritty /usr/local/bin
+sudo cp Alacritty.desktop /usr/share/applicationsm
+
 # Set Zsh as the default shell
 chsh -s "$(which zsh)"
 
