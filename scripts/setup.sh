@@ -3,12 +3,14 @@
 ROOT_DIR="$HOME/dotfiles" # This just goes up one level to the "dotfiles" repo root
 FONT_DIR="/usr/share/fonts"
 SUCKLESS_DIR="$HOME./suckless"
+XINITRC_DIR="$HOME"
+XSESSIONS_DIR="/usr/share/xsessions/"
 ALACRITTY_DIR="$HOME./config/alacritty"
 VIM_DIR="$HOME"
 RANGER_DIR="$HOME./config/ranger"
 
-DIRECTORIES=("$ROOT_DIR" "$FONT_DIR" "$SUCKLESS_DIR" "$ALACRITTY_DIR" "$VIM_DIR" "$RANGER_DIR")
-DIRECTORIES_STR=("fonts" "suckless" "alacritty config" "vim config" "ranger config")
+DIRECTORIES=("$ROOT_DIR" "$FONT_DIR" "$SUCKLESS_DIR" "$XINITRC_DIR" "$XSESSIONS_DIR" "$ALACRITTY_DIR" "$VIM_DIR" "$RANGER_DIR")
+DIRECTORIES_STR=("fonts" "suckless" "xinitrc" "xsessions" "alacritty config" "vim config" "ranger config")
 USER_DIRECTORIES=()
 
 # COPY CONFIGS INTO DEFAULT LOCATIONS
@@ -27,17 +29,19 @@ DIRECTORIES=("${USER_DIRECTORIES[@]}")
 
 sudo apt-get update
 # Install dependencies for dwm
-sudo apt install -y build-essential libx11-dev libxinerama-dev libxft-dev libharfbuzz-dev xorg
+sudo apt install -y build-essential libx11-dev libxinerama-dev libxft-dev libharfbuzz-dev
 
 mkdir -p "$SUCKLESS_DIR"
-git clone https://git.suckless.com/dwm "$SUCKLESS_DIR/dwm"
-git clone https://git.suckless.com/dmenu "$SUCKLESS_DIR/dmenu"
+git clone https://git.suckless.org/dwm "$SUCKLESS_DIR/dwm"
+git clone https://git.suckless.org/dmenu "$SUCKLESS_DIR/dmenu"
 cd "$SUCKLESS_DIR/dwm" || exit
 sudo make install clean
 cd "$SUCKLESS_DIR/dmenu" || exit
 sudo make install clean
 
+echo "exec dwm" >> "$XINITRC_DIR"
 
+cp "$ROOT_DIR/config/dwm/dwm.desktop" "usr/share/xsessions"
 
 # Install Vim, Alacritty, Ranger, and zsh
 sudo apt-get install -y vim alacritty ranger zsh
