@@ -12,13 +12,17 @@ DIRECTORIES_STR=("fonts" "suckless" "alacritty config" "vim config" "ranger conf
 USER_DIRECTORIES=()
 
 # COPY CONFIGS INTO DEFAULT LOCATIONS
-for ((i = 0; i <  ${DIRECTORIES[@]}; i++)); do
-	dir="${DIRECTORIES[$i]}"
-	dir_str="${DIRECTORIES_STR[$i]}"
-	read -p "Enter the path to your $dir_str, or leave blank and press enter to continue with the default \"$dir\":" directory_input
-	directory_input=$(echo "$directory_input" | tr -d '[:space:]')
-	USER_DIRECTORIES+=("$directory_input")
-done;
+for ((i=0; i<${#DIRECTORIES[@]}; i++)); do
+    dir="${DIRECTORIES[$i]}"
+    dir_str="${DIRECTORIES_STR[$i]}"
+    
+    read -p "Enter the path to your $dir_str (or press enter to use the default \"$dir\"): " directory_input
+    directory_input=$(echo "$directory_input" | tr -d '[:space:]')
+
+    # Use the default value if the user input is empty
+    USER_DIRECTORIES+=("${directory_input:-$dir}")
+done
+;
 
 DIRECTORIES=("${USER_DIRECTORIES[@]}")
 
