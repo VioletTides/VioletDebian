@@ -1,0 +1,19 @@
+name: Test Setup Script
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Build and run Docker container
+      run: |
+        docker build -t test-setup .
+        docker run test-setup
