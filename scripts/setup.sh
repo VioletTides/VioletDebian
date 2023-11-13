@@ -22,7 +22,6 @@ for ((i=0; i<${#DIRECTORIES[@]}; i++)); do
     # Use the default value if the user input is empty
     USER_DIRECTORIES+=("${directory_input:-$dir}")
 done
-;
 
 DIRECTORIES=("${USER_DIRECTORIES[@]}")
 
