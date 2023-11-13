@@ -3,19 +3,28 @@
 # Change these directories to what you have
 ROOT_DIR="../"
 FONT_DIR="/usr/share/fonts"
-DWM_DIR="$HOME./suckless/dwm"
-ALACRITTY_DIR=""
-VIM_DIR=""
-RANGER_DIR=""
+SUCKLESS_DIR="$HOME./suckless"
+ALACRITTY_DIR="$HOME./config/alacritty"
+VIM_DIR="$HOME"
+RANGER_DIR="$HOME./config/ranger"
+
+DIRECTORIES=("$ROOT_DIR" "$FONT_DIR" "$SUCKLESS_DIR" "$ALACRITTY_DIR" "$VIM_DIR" "$RANGER_DIR")
+DIRECTORIES_STR=("fonts" "suckless" "alacritty config" "vim config" "ranger config")
+USER_DIRECTORIES=()
 
 # Create a fonts directory if it doesn't exist
-sudo mkdir -p "$FONT_DIR"
+if [ -d "$FONT_DIR" ]; then
+	echo "Font directory already exists, continuing..."
+else
+	sudo mkdir -p "$FONT_DIR"
+fi
 
 # Copy Mononoki font files into the font directory
 sudo cp "$ROOT_DIR/fonts/"* "$FONT_DIR/"
 
 # Update the font cache
 sudo fc-cache -f -v
+
 
 # INSTALL PROGRAMS
 
@@ -27,6 +36,22 @@ sudo apt-get install -y vim alacritty ranger zsh
 chsh -s "$(which zsh)"
 
 # COPY CONFIGS INTO DEFAULT LOCATIONS
+
+
+for dir in ${DIRECTORIES[@]}; do
+	read -p "Enter the path to your $DIRECTORIES_STR, or leave blank and press enter to continue with the default \"$DIRECTORIES\":" directory_input
+	directory_input=$(echo "$directory_input" | tr -d '[:space:]')
+	if [ -z "$directory_input" ]; then
+		$USER_DIRECTORIES+=("$dir")
+	else
+		$USER_DIRECTORIES+=("$directory_input")
+	fi
+done;
+
+$DIRECTORIES=("${USER_DIRECTORIES[@]}")
+
+
+
 
 # Copy Alacritty config file
 cp "$ROOT_DIR/alacritty.yml" "$HOME/.config/alacritty/alacritty.yml"
