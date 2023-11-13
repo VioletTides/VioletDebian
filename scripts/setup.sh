@@ -16,7 +16,7 @@ for dir in ${DIRECTORIES[@]}; do
 	read -p "Enter the path to your $DIRECTORIES_STR, or leave blank and press enter to continue with the default \"$DIRECTORIES\":" directory_input
 	directory_input=$(echo "$directory_input" | tr -d '[:space:]')
 	if [ -z "$directory_input" ]; then
-		$USER_DIRECTORIES+=("$dir")
+		$USER_DIRECTORIES+=("$directory_input")
 	else
 		$USER_DIRECTORIES+=("$directory_input")
 	fi
