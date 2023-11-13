@@ -12,13 +12,15 @@ DIRECTORIES_STR=("fonts" "suckless" "alacritty config" "vim config" "ranger conf
 USER_DIRECTORIES=()
 
 # COPY CONFIGS INTO DEFAULT LOCATIONS
-for dir in ${DIRECTORIES[@]}; do
-	read -p "Enter the path to your $DIRECTORIES_STR, or leave blank and press enter to continue with the default \"$dir\":" directory_input
+for ((i = 0; i <  ${DIRECTORIES[@]}; i++)); do
+	dir="${DIRECTORIES[$i]}"
+	dir_str="${DIRECTORIES_STR[$i]}"
+	read -p "Enter the path to your $dir_str, or leave blank and press enter to continue with the default \"$dir\":" directory_input
 	directory_input=$(echo "$directory_input" | tr -d '[:space:]')
 	USER_DIRECTORIES+=("$directory_input")
 done;
 
-$DIRECTORIES=("${USER_DIRECTORIES[@]}")
+DIRECTORIES=("${USER_DIRECTORIES[@]}")
 
 sudo apt-get update
 # Install dependencies for dwm
