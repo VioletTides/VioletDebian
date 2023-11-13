@@ -1,0 +1,9 @@
+# .gitignore
+
+# Ignore editor backup files
+*~
+
+# Ignore system-specific files
+.DS_Store
+
+# Add other entries as needed

@@ -1,0 +1,1 @@
+/home/violet/.suckless/dwm/config.h
