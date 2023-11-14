@@ -2,7 +2,11 @@
 
 # Dynamically get the current user's home directory
 HOME=$(getent passwd "$(whoami)" | cut -d: -f6)
-REPO_DIR="$HOME/dotfiles" # The root directory of the dotfiles repository
+# Get the directory where the script resides
+SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
+# Set REPO_DIR relative to the script directory
+REPO_DIR="$SCRIPT_DIR/.."
+
 CONFIG_DIR="$HOME/.config" # The directory where config files are stored
 FONT_DIR="/usr/share/fonts" # The directory where fonts are stored
 SUCKLESS_DIR="$HOME/.suckless" # The directory where suckless programs are stored
