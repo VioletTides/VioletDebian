@@ -1,5 +1,5 @@
 #!/bin/bash
 
-cp -r "~/.suckless/dwm/config.h" "/../config/suckless/dwm/config.h"
-cp -r "~/.vimrc" "/config/vim/.vimrc"
-cp -r "~/.config/alacritty/alacritty.yml" "/../config/alacritty/alacritty.yml"
+cp -r "$HOME/.suckless/dwm/config.h" "$HOME/dotless/config/suckless/dwm/config.h"
+cp -r "$HOME/.vimrc" "$HOME/dotless/config/vim/.vimrc"
+cp -r "$HOME/.config/alacritty/alacritty.yml" "$HOME/dotless/config/alacritty/alacritty.yml"
