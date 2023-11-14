@@ -56,7 +56,7 @@ install_suckless() {
 
 install_alacritty() {
     # Install Alacritty dependencies
-    sudo apt-get install -y cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev python3
+    sudo apt-get install -y cmake rust cargo pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev python3
 
     # Clone Alacritty repository
     cd "$REPO_DIR" || exit
