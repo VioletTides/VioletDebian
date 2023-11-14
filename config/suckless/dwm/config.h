@@ -1,1 +1,1 @@
-/home/violet/.suckless/dwm/config.h
+~/.suckless/dwm/config.h
