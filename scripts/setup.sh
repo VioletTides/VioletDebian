@@ -69,7 +69,7 @@ install_alacritty() {
     cargo build --release
 
     # Install Alacritty (you may need to adjust the path if desired)
-    sudo cp target/release/alacritty /usr/local/bin
+    sudo cp "target/release/alacritty" "/usr/local/bin"
 
     # Remove Alacritty repository
     cd "$REPO_DIR" || exit
