@@ -1,1 +1,0 @@
-~/.suckless/dwm/config.h
