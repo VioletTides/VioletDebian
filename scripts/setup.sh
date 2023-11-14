@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ROOT_DIR="../" # The root directory of the dotfiles repository
+ROOT_DIR="$HOME/dotfiles" # The root directory of the dotfiles repository
 CONFIG_DIR="$HOME/.config" # The directory where config files are stored
 FONT_DIR="/usr/share/fonts" # The directory where fonts are stored
 SUCKLESS_DIR="$HOME/.suckless" # The directory where suckless programs are stored
