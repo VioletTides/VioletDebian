@@ -1,83 +1,128 @@
 #!/bin/bash
 
-ROOT_DIR="$HOME/dotfiles"
-CONFIG_DIR="$HOME/.config"
-FONT_DIR="/usr/share/fonts"
-SUCKLESS_DIR="$HOME/.suckless"
-XINITRC_DIR="$HOME"
-XSESSIONS_DIR="/usr/share/xsessions/"
-ALACRITTY_DIR="$HOME/.config/alacritty"
-VIM_DIR="$HOME"
-RANGER_DIR="$HOME/.config/ranger"
+source suckless.sh
+source alacritty.sh
 
-sudo mkdir -p "$CONFIG_DIR"
+ROOT_DIR="../" # The root directory of the dotfiles repository
+CONFIG_DIR="$HOME/.config" # The directory where config files are stored
+FONT_DIR="/usr/share/fonts" # The directory where fonts are stored
+SUCKLESS_DIR="$HOME/.suckless" # The directory where suckless programs are stored
+XINITRC_DIR="$HOME" # The directory where the .xinitrc file is stored
+XSESSIONS_DIR="/usr/share/xsessions/" # The directory where the .desktop files are stored
+ALACRITTY_DIR="$HOME/.config/alacritty" # The directory where the Alacritty config file is stored
+VIM_DIR="$HOME" # The directory where the Vim config file is stored
+RANGER_DIR="$HOME/.config/ranger" # The directory where the Ranger config files are stored
 
-sudo apt-get update
-sudo apt-get install -y build-essential libx11-dev libxinerama-dev libxft-dev libharfbuzz-dev git
-sudo apt-get install -y xserver-xorg-core xserver-xorg-video-intel xinit x11-xserver-utils
-
-sudo mkdir -p "$SUCKLESS_DIR"
-git clone https://git.suckless.org/dwm "$SUCKLESS_DIR/dwm"
-git clone https://git.suckless.org/dmenu "$SUCKLESS_DIR/dmenu"
-
-echo "exec dwm" >> "$XINITRC_DIR/.xinitrc"
-
-sudo cp "$ROOT_DIR/config/dwm/dwm.desktop" "/usr/share/xsessions"
-
-# Install Vim, Alacritty, Ranger, zsh, etc
-sudo apt-get install -y vim alacritty ranger zsh firefox-esr pipewire amixer
-
-# Install Rust (and Cargo)
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-source $HOME/.cargo/env
-
-sudo apt-get install -y cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev libxrandr-dev libxi-dev libgl1-mesa-dev
-
-git clone https://github.com/alacritty/alacritty.git
-cd alacritty || exit
-sudo cp target/release/alacritty /usr/local/bin
-sudo cp Alacritty.desktop /usr/share/applicationsm
+# Install basics
+sudo apt-get install -y curl zsh wget firefox-esr amixer pulseaudio
 
 # Set Zsh as the default shell
 chsh -s "$(which zsh)"
 
-# Copy Alacritty config file
-sudo cp "$ROOT_DIR/config/alacritty/alacritty.yml" "$ALACRITTY_DIR/alacritty.yml"
+install_suckless() {
+    # Install dependencies for dwm and dmenu
+    sudo apt-get update
+    sudo apt-get install -y make build-essential libx11-dev libxft-dev libxinerama-dev libfreetype6-dev libfontconfig1-dev
 
-# Copy Ranger config files
-sudo cp -r "$ROOT_DIR/config/ranger" "$RANGER_DIR"
+    mkdir -p "$SUCKLESS_DIR"
+    cd "$SUCKLESS_DIR" || exit
+    git clone https://git.suckless.org/dwm
+    git clone https://git.suckless.org/dmenu
 
-# Setup Vim-Plug and install if not already
-if [ ! -f "$HOME/.vim/autoload/plug.vim" ]; then
-    sudo mkdir -p "$HOME/.vim/autoload"
-    curl -fLo "$HOME/.vim/autoload/plug.vim" --create-dirs \
-        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-fi
+    # Build and install dwm
+    cd dwm || exit
+    sudo make clean install
+    # Build and install dmenu
+    cd ../dmenu || exit
+    sudo make clean install
 
-# Copy Vim config file
-sudo cp "$ROOT_DIR/vimrc" "$VIM_DIR/.vimrc"
+    # Copy the config.h files to the dwm and dmenu directories
+    sudo cp "$ROOT_DIR/config/suckless/dwm/config.h" "$SUCKLESS_DIR/dwm/config.h"
+    sudo cp "$ROOT_DIR/config/suckless/dmenu/config.h" "$SUCKLESS_DIR/dmenu/config.h"
 
-# Install Vim plugins using Vim-Plug
-vim +PlugInstall +qall
+    # Install dependencies for xorg
+    sudo apt-get install -y xorg xserver-xorg xserver-xorg-core xserver-xorg-video-intel xinit x11-xserver-utils
 
-# INSTALL FONTS
-# Create a fonts directory if it doesn't exist
-if [ -d "$FONT_DIR" ]; then
-    echo "Font directory already exists, continuing..."
-else
-    sudo mkdir -p "$FONT_DIR"
-fi
+    mkdir -p "$XINITRC_DIR"
+    mkdir -p "$XSESSIONS_DIR"
+    # Create and init the .xinitrc file in the specified directory
+    echo "exec dwm" >> "$XINITRC_DIR/.xinitrc"
+    # Copy the .desktop file to the specified directory
+    sudo cp "$ROOT_DIR/config/suckless/dwm/dwm.desktop" "$XSESSIONS_DIR"
+}
 
-# Copy Mononoki font files into the font directory
-sudo cp "$ROOT_DIR/fonts/"* "$FONT_DIR/"
+install_alacritty() {
+    # Install Alacritty dependencies
+    sudo apt-get install -y cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev python3
 
-# Update the font cache
-sudo fc-cache -f -v
+    # Clone Alacritty repository
+    cd "$ROOT_DIR" || exit
+    git clone https://github.com/alacritty/alacritty.git
 
-cd "$SUCKLESS_DIR/dwm" || exit
-sudo make install clean
-cd "$SUCKLESS_DIR/dmenu" || exit
-sudo make install clean
+    # Build and install Alacritty
+    cd alacritty || exit
+    sudo make clean install
+
+    # Remove Alacritty repository
+    cd "$ROOT_DIR" || exit
+    rm -rf alacritty
+
+    # Configure alacritty
+    sudo mkdir -p "$ALACRITTY_DIR"
+    sudo cp "$ROOT_DIR/config/alacritty/alacritty.yml" "$ALACRITTY_DIR/alacritty.yml"
+
+    # Set Alacritty as the default terminal
+    sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/local/bin/alacritty 50
+    sudo update-alternatives --config x-terminal-emulator
+}
+
+### INSTALL AND CONFIGURE RANGER ###
+install_ranger() {
+    sudo apt-get install -y ranger w3m-img highlight atool poppler-utils mediainfo
+    # Configure Ranger
+    sudo mkdir -p "$RANGER_DIR"
+    sudo cp "$ROOT_DIR/config/ranger/rc.conf" "$RANGER_DIR/rc.conf"
+}
+
+### INSTALL AND CONFIGURE VIM ###
+install_vim() { 
+    # Setup Vim-Plug and install if not already
+    if [ -f "$HOME/.vim/autoload/plug.vim" ]; then
+        echo "Vim-Plug already installed, continuing..."
+    else
+        echo "Installing Vim-Plug..."
+        curl -fLo "$HOME/.vim/autoload/plug.vim" --create-dirs \
+            https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    fi
+
+    # Configure Vim
+    sudo cp "$ROOT_DIR/config/vim/.vimrc" "$VIM_DIR/.vimrc"
+
+    # Install Vim plugins using Vim-Plug
+    vim +PlugInstall +qall
+}
+
+### INSTALL AND CONFIGURE FONTS ###
+install_fonts() {
+    # Create a fonts directory if it doesn't exist
+    if [ -d "$FONT_DIR" ]; then
+        echo "Font directory already exists, continuing..."
+    else
+        sudo mkdir -p "$FONT_DIR"
+    fi
+
+    # Copy Mononoki font files into the font directory
+    sudo cp "$ROOT_DIR/fonts/"* "$FONT_DIR/"
+
+    # Update the font cache
+    sudo fc-cache -f -v
+}
+
+install_suckless
+install_alacritty
+install_ranger
+install_vim
+install_fonts
 
 echo "Setup Complete!"
 startx
