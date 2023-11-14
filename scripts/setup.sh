@@ -64,7 +64,12 @@ install_alacritty() {
 
     # Build and install Alacritty
     cd alacritty || exit
-    sudo make clean install
+    
+    # Build Alacritty
+    cargo build --release
+
+    # Install Alacritty (you may need to adjust the path if desired)
+    sudo cp target/release/alacritty /usr/local/bin
 
     # Remove Alacritty repository
     cd "$REPO_DIR" || exit
@@ -115,7 +120,7 @@ install_fonts() {
     fi
 
     # Copy Mononoki font files into the font directory
-    sudo cp "$REPO_DIR/fonts/"* "$FONT_DIR/"
+    sudo cp "$REPO_DIR/fonts/" "$FONT_DIR/"
 
     # Update the font cache
     sudo fc-cache -f -v
