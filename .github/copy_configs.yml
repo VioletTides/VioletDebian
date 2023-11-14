@@ -16,6 +16,7 @@ jobs:
       - name: Copy Config File
         run: |
           cp ~/.suckless/dwm/config.h /config/suckless/dwm
-        cp ~/.config/alacritty
+          cp ~/.config/alacritty/alacritty.yml /config/alacritty
+          cp ~.vimrc /config/vim
         shell: bash
 
