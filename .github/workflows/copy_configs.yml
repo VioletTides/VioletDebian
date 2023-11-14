@@ -1,0 +1,22 @@
+name: Copy Config File
+
+on:
+  push:
+    branches:
+      - main  # Adjust the branch name as needed
+
+jobs:
+  copy-config:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Copy Config File
+        run: |
+          cp ~/.suckless/dwm/config.h /config/suckless/dwm
+          cp ~/.config/alacritty/alacritty.yml /config/alacritty
+          cp ~.vimrc /config/vim
+        shell: bash
+
