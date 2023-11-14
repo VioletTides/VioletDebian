@@ -1,8 +1,5 @@
 #!/bin/bash
 
-source suckless.sh
-source alacritty.sh
-
 ROOT_DIR="../" # The root directory of the dotfiles repository
 CONFIG_DIR="$HOME/.config" # The directory where config files are stored
 FONT_DIR="/usr/share/fonts" # The directory where fonts are stored
