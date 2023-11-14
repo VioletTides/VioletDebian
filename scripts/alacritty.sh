@@ -14,9 +14,14 @@ VIM_DIR="$HOME" # The directory where the Vim config file is stored
 RANGER_DIR="$HOME/.config/ranger" # The directory where the Ranger config files are stored
 
 
+# Install Rust using rustup
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+# Add Rust to PATH (this might be needed to use Rust immediately in the script)
+source $HOME/.cargo/env
 
 # Install Alacritty dependencies
-sudo apt-get install -y cmake rust cargo pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev python3
+sudo apt-get install -y cmake cargo pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev python3
 
 # Clone Alacritty repository
 cd "$REPO_DIR" || exit
