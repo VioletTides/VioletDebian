@@ -1,6 +1,8 @@
 #!/bin/bash
 
-ROOT_DIR="$HOME/dotfiles" # The root directory of the dotfiles repository
+# Dynamically get the current user's home directory
+HOME=$(getent passwd "$(whoami)" | cut -d: -f6)
+REPO_DIR="$HOME/dotfiles" # The root directory of the dotfiles repository
 CONFIG_DIR="$HOME/.config" # The directory where config files are stored
 FONT_DIR="/usr/share/fonts" # The directory where fonts are stored
 SUCKLESS_DIR="$HOME/.suckless" # The directory where suckless programs are stored
@@ -34,8 +36,8 @@ install_suckless() {
     sudo make clean install
 
     # Copy the config.h files to the dwm and dmenu directories
-    sudo cp "$ROOT_DIR/config/suckless/dwm/config.h" "$SUCKLESS_DIR/dwm/config.h"
-    sudo cp "$ROOT_DIR/config/suckless/dmenu/config.h" "$SUCKLESS_DIR/dmenu/config.h"
+    sudo cp "$REPO_DIR/config/suckless/dwm/config.h" "$SUCKLESS_DIR/dwm/config.h"
+    sudo cp "$REPO_DIR/config/suckless/dmenu/config.h" "$SUCKLESS_DIR/dmenu/config.h"
 
     # Install dependencies for xorg
     sudo apt-get install -y xorg xserver-xorg xserver-xorg-core xserver-xorg-video-intel xinit x11-xserver-utils
@@ -45,7 +47,7 @@ install_suckless() {
     # Create and init the .xinitrc file in the specified directory
     echo "exec dwm" >> "$XINITRC_DIR/.xinitrc"
     # Copy the .desktop file to the specified directory
-    sudo cp "$ROOT_DIR/config/suckless/dwm/dwm.desktop" "$XSESSIONS_DIR"
+    sudo cp "$REPO_DIR/config/suckless/dwm/dwm.desktop" "$XSESSIONS_DIR"
 }
 
 install_alacritty() {
@@ -53,7 +55,7 @@ install_alacritty() {
     sudo apt-get install -y cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev python3
 
     # Clone Alacritty repository
-    cd "$ROOT_DIR" || exit
+    cd "$REPO_DIR" || exit
     git clone https://github.com/alacritty/alacritty.git
 
     # Build and install Alacritty
@@ -61,12 +63,12 @@ install_alacritty() {
     sudo make clean install
 
     # Remove Alacritty repository
-    cd "$ROOT_DIR" || exit
+    cd "$REPO_DIR" || exit
     rm -rf alacritty
 
     # Configure alacritty
     sudo mkdir -p "$ALACRITTY_DIR"
-    sudo cp "$ROOT_DIR/config/alacritty/alacritty.yml" "$ALACRITTY_DIR/alacritty.yml"
+    sudo cp "$REPO_DIR/config/alacritty/alacritty.yml" "$ALACRITTY_DIR/alacritty.yml"
 
     # Set Alacritty as the default terminal
     sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/local/bin/alacritty 50
@@ -78,7 +80,7 @@ install_ranger() {
     sudo apt-get install -y ranger w3m-img highlight atool poppler-utils mediainfo
     # Configure Ranger
     sudo mkdir -p "$RANGER_DIR"
-    sudo cp "$ROOT_DIR/config/ranger/rc.conf" "$RANGER_DIR/rc.conf"
+    sudo cp "$REPO_DIR/config/ranger/rc.conf" "$RANGER_DIR/rc.conf"
 }
 
 ### INSTALL AND CONFIGURE VIM ###
@@ -93,7 +95,7 @@ install_vim() {
     fi
 
     # Configure Vim
-    sudo cp "$ROOT_DIR/config/vim/.vimrc" "$VIM_DIR/.vimrc"
+    sudo cp "$REPO_DIR/config/vim/.vimrc" "$VIM_DIR/.vimrc"
 
     # Install Vim plugins using Vim-Plug
     vim +PlugInstall +qall
@@ -109,7 +111,7 @@ install_fonts() {
     fi
 
     # Copy Mononoki font files into the font directory
-    sudo cp "$ROOT_DIR/fonts/"* "$FONT_DIR/"
+    sudo cp "$REPO_DIR/fonts/"* "$FONT_DIR/"
 
     # Update the font cache
     sudo fc-cache -f -v
