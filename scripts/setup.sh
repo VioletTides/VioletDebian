@@ -1,5 +1,5 @@
 #!/bin/bash
-t
+
 # Get the directory where the script resides
 SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
 # Set REPO_DIR relative to the script directory
