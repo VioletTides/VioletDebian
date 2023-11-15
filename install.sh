@@ -57,7 +57,7 @@ install_suckless() {
 
     # Copy the config.h files to the dwm and dmenu directories
     cp "$REPO_DIR/config/suckless/dwm/config.h" "$SUCKLESS_DIR/dwm/config.h" || { echo "Failed to copy dwm config.h"; exit 1; }
-    cp "$REPO_DIR/config/suckless/dmenu/config.h" "$SUCKLESS_DIR/dmenu/config.h" || { echo "Failed to copy dmenu config.h"; exit 1; }
+    #cp "$REPO_DIR/config/suckless/dmenu/config.h" "$SUCKLESS_DIR/dmenu/config.h" || { echo "Failed to copy dmenu config.h"; exit 1; }
 
     # Install dependencies for xorg
     apt-get install -y xorg xserver-xorg xserver-xorg-core xserver-xorg-video-intel xinit x11-xserver-utils
