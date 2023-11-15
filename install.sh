@@ -13,14 +13,14 @@ REPO_DIR=$(pwd)
 apt update
 apt upgrade -y
 
-CONFIG_DIR="$HOME/.config" # The directory where config files are stored
-FONT_DIR="$HOME/$username/.fonts" # The directory where fonts are stored
-SUCKLESS_DIR="$HOME/.suckless" # The directory where suckless programs are stored
-XINITRC_DIR="$HOME" # The directory where the .xinitrc file is stored
+CONFIG_DIR="/home/$username/.config" # The directory where config files are stored
+FONT_DIR="/home/$username/.fonts" # The directory where fonts are stored
+SUCKLESS_DIR="/home/$username/.suckless" # The directory where suckless programs are stored
+XINITRC_DIR="/home/$username/" # The directory where the .xinitrc file is stored
 XSESSIONS_DIR="/usr/share/xsessions/" # The directory where the .desktop files are stored
 #ALACRITTY_DIR="$HOME/.config/alacritty" # The directory where the Kitty config file is stored
-VIM_DIR="$HOME" # The directory where the Vim config file is stored
-RANGER_DIR="$HOME/.config/ranger" # The directory where the Ranger config files are stored
+VIM_DIR="/home/$username" # The directory where the Vim config file is stored
+RANGER_DIR="/home/$username/.config/ranger" # The directory where the Ranger config files are stored
 
 mkdir -p $CONFIG_DIR
 mkdir -p $FONT_DIR
@@ -38,6 +38,7 @@ apt-get install -y feh picom curl zsh wget firefox-esr pulseaudio unzip
 chsh -s "$(which zsh)"
 
 install_suckless() {
+    cd $REPO_DIR
     # Install dependencies for dwm and dmenu
     apt-get update
     apt-get install -y make build-essential libx11-dev libxft-dev libxinerama-dev libfreetype6-dev libfontconfig1-dev
@@ -83,12 +84,15 @@ install_ranger() {
 
 ### INSTALL AND CONFIGURE VIM ###
 install_vim() { 
+    # Install Vim
+    apt install vim -y
+
     # Setup Vim-Plug and install if not already
-    if [ -f "$HOME/.vim/autoload/plug.vim" ]; then
+    if [ -f "$VIM_DIR/.vim/autoload/plug.vim" ]; then
         echo "Vim-Plug already installed, continuing..."
     else
         echo "Installing Vim-Plug..."
-        curl -fLo "$HOME/.vim/autoload/plug.vim" --create-dirs \
+        curl -fLo "$VIM_DIR/.vim/autoload/plug.vim" --create-dirs \
             https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     fi
 
@@ -122,6 +126,8 @@ install_kitty
 #install_vim
 #install_fonts
 chown $username:$username $FONTDIR*
+
+cd /home/$username
 
 echo "Setup Complete!"
 startx
