@@ -2,8 +2,8 @@
 
 # Check if Script is Run as Root
 if [[ $EUID -ne 0 ]]; then
-  echo "You must be a root user to run this script, please run sudo ./install.sh" 2>&1
-  exit 1
+    echo "You must be a root user to run this script, please run sudo ./install.sh" 2>&1
+    exit 1
 fi
 
 # Define the log file path and name
@@ -15,37 +15,14 @@ if command -v kitty &>/dev/null; then
     exit 0
 fi
 
-# Update package lists and install necessary dependencies including OpenSSL and lcms2
+curl -L https://sw.kovidgoyal.net/kitty/aptk.gpg | sudo gpg --dearmor -o /usr/share/keyrings/kovidgoyal-archive-keyring.gpg
+echo 'deb [signed-by=/usr/share/keyrings/kovidgoyal-archive-keyring.gpg] https://sw.kovidgoyal.net/kitty/nightly/apt buster main' | tee /etc/apt/sources.list.d/kitty.list
 apt update
-apt install -y \
-    git \
-    build-essential \
-    cmake \
-    libgtk-3-dev \
-    libglm-dev \
-    libxxf86vm-dev \
-    libxrandr-dev \
-    libxcursor-dev \
-    libxi-dev \
-    pkg-config \
-    libfontconfig1-dev \
-    libxkbcommon-x11-dev \
-    libwayland-dev \
-    libwayland-cursor0 \
-    libwayland-egl1 \
-    libssl-dev \
-    liblcms2-dev  # Added liblcms2-dev for lcms2 support
+apt install kitty -y
 
-# Clone the kitty repository from GitHub
-git clone https://github.com/kovidgoyal/kitty.git
-cd kitty
-
-# Install kitty
-make
-make install
 
 # Add a symbolic link to use kitty as default terminal
-update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator $(which kitty) 50
+update-alternatives --set x-terminal-emulator "$(which kitty)"
 
 # Print installation status and version information to both terminal and log file
 {
