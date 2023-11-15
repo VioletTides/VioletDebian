@@ -24,7 +24,6 @@ RANGER_DIR="/home/$username/.config/ranger" # The directory where the Ranger con
 
 mkdir -p $CONFIG_DIR
 mkdir -p $FONT_DIR
-mkdir -p $SUCKLESS_DIR
 mkdir -p $RANGER_DIR
 mkdir -p /home/$username/Pictures   
 mkdir -p /home/$username/Pictures/backgrounds
@@ -62,10 +61,12 @@ install_suckless() {
     # Install dependencies for xorg
     apt-get install -y xorg xserver-xorg xserver-xorg-core xserver-xorg-video-intel xinit x11-xserver-utils
 
-    mkdir -p "$XINITRC_DIR" || { echo "Failed to make the .xinitrc directory"; exit 1; }
     mkdir -p "$XSESSIONS_DIR" || { echo "Failed to make the .desktop directory"; exit 1; }
+
     # Create and init the .xinitrc file in the specified directory
     echo "exec dwm" >> "$XINITRC_DIR/.xinitrc" || { echo "Failed to create and init the .xinitrc file"; exit 1; }
+    # Create and init the .xsessions file in the specified directory
+    echo "exec /usr/bin/startx" >> "$XINITRC_DIR/.xsession" || { echo "Failed to create and init the .xsession file"; exit 1; }
     # Copy the .desktop file to the specified directory
     cp "$REPO_DIR/config/suckless/dwm/dwm.desktop" "$XSESSIONS_DIR" || { echo "Failed to copy the .desktop file"; exit 1; }
 }
@@ -121,7 +122,7 @@ install_fonts() {
 
 
 install_suckless
-#install_kitty
+install_kitty
 #install_ranger
 #install_vim
 #install_fonts
