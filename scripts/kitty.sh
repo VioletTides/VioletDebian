@@ -15,7 +15,7 @@ if command -v kitty &>/dev/null; then
     exit 0
 fi
 
-# Update package lists and install necessary dependencies including OpenSSL
+# Update package lists and install necessary dependencies including OpenSSL and lcms2
 apt update
 apt install -y \
     git \
@@ -33,7 +33,8 @@ apt install -y \
     libwayland-dev \
     libwayland-cursor0 \
     libwayland-egl1 \
-    libssl-dev
+    libssl-dev \
+    liblcms2-dev  # Added liblcms2-dev for lcms2 support
 
 # Clone the kitty repository from GitHub
 git clone https://github.com/kovidgoyal/kitty.git
