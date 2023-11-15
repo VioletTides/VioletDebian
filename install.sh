@@ -100,7 +100,7 @@ install_kitty() {
     rm -rf /kitty
 
     # Copy config and themes etc
-    cp -r "$REPO_DIR/config/kitty" "$CONFIG_DIR"
+    cp "$REPO_DIR/config/kitty*" "$CONFIG_DIR/kitty"
     
     # Print installation status and version information to terminal
     echo "Kitty Installation Complete"
