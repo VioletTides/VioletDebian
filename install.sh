@@ -49,7 +49,7 @@ install_suckless() {
     git clone https://git.suckless.org/dmenu
 
     # Build and install dwm
-    cd /$SUCKLESS_DIR/dwm || || { echo "Failed to cd into dwm"; exit 1; }
+    cd /$SUCKLESS_DIR/dwm || { echo "Failed to cd into dwm"; exit 1; }
     make clean install || { echo "Failed to build and install dwm"; exit 1; }
     # Build and install dmenu
     cd /$SUCKLESS_DIR/dmenu || { echo "Failed to cd into dmenu"; exit 1; }
