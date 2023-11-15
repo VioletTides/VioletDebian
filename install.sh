@@ -14,14 +14,22 @@ apt update
 apt upgrade -y
 
 CONFIG_DIR="$HOME/.config" # The directory where config files are stored
-FONT_DIR="$HOME/$username/fonts" # The directory where fonts are stored
+FONT_DIR="$HOME/$username/.fonts" # The directory where fonts are stored
 SUCKLESS_DIR="$HOME/.suckless" # The directory where suckless programs are stored
 XINITRC_DIR="$HOME" # The directory where the .xinitrc file is stored
 XSESSIONS_DIR="/usr/share/xsessions/" # The directory where the .desktop files are stored
-ALACRITTY_DIR="$HOME/.config/alacritty" # The directory where the Alacritty config file is stored
+#ALACRITTY_DIR="$HOME/.config/alacritty" # The directory where the Kitty config file is stored
 VIM_DIR="$HOME" # The directory where the Vim config file is stored
 RANGER_DIR="$HOME/.config/ranger" # The directory where the Ranger config files are stored
 
+mkdir -p $CONFIG_DIR
+mkdir -p $FONT_DIR
+mkdir -p $SUCKLESS_DIR
+mkdir -p $RANGER_DIR
+mkdir -p /home/$username/Pictures   
+mkdir -p /home/$username/Pictures/backgrounds
+
+chown -R $username:$username /home/$username
 
 # Install basics
 apt-get install -y feh picom curl zsh wget firefox-esr pulseaudio unzip
@@ -95,13 +103,6 @@ install_vim() {
 install_fonts() {
     # Go into the repo directory
     cd $REPO_DIR
-
-    # Create a fonts directory if it doesn't exist
-    if [ -d "$FONT_DIR" ]; then
-        echo "Font directory already exists, continuing..."
-    else
-        mkdir -p "$FONT_DIR"
-    fi
 
     # Install the Mononoki font
     wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/Mononoki.zip
