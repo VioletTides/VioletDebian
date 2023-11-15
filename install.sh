@@ -50,10 +50,10 @@ install_suckless() {
 
     # Build and install dwm
     cd dwm || exit
-    make clean install
+    make clean install || { echo "Failed to build and install dwm"; exit 1; }
     # Build and install dmenu
     cd ../dmenu || exit
-    make clean install
+    make clean install || { echo "Failed to build and install dmenu"; exit 1; }
 
     # Copy the config.h files to the dwm and dmenu directories
     cp "$REPO_DIR/config/suckless/dwm/config.h" "$SUCKLESS_DIR/dwm/config.h"
@@ -120,7 +120,7 @@ install_fonts() {
 }
 
 
-install_suckless
+#install_suckless
 install_kitty
 #install_ranger
 #install_vim
