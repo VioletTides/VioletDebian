@@ -64,12 +64,20 @@ install_suckless() {
     # Create and init the .xinitrc file in the specified directory
     echo "exec dwm" >> "$XINITRC_DIR/.xinitrc" || { echo "Failed to create and init the .xinitrc file"; exit 1; }
     chmod +x "$XINITRC_DIR/.xinitrc" || { echo "Failed to make the .xinitrc file executable"; exit 1; }
-
+    
     # Create and init the .xsessions file in the specified directory
     #echo "exec /usr/bin/startx" >> "$XINITRC_DIR/.xsession" || { echo "Failed to create and init the .xsession file"; exit 1; } UNCOMMENT THIS LINE WHWEN USING A DISPLAY MANAGER
-
+    
     # Copy the .desktop file to the specified directory
     cp "$REPO_DIR/config/suckless/dwm/dwm.desktop" "$XSESSIONS_DIR" || { echo "Failed to copy the .desktop file"; exit 1; }
+    
+    # Create and init the .bash_profile to start an xsession on login
+    BASH_PROFILE="/home/$username/.bash_profile"
+    echo 'if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ]; then' > "$BASH_PROFILE"
+    echo '    exec startx' >> "$BASH_PROFILE"
+    echo 'fi' >> "$BASH_PROFILE"
+    
+    echo "Created .bash_profile successfully."
 }
 
 install_kitty() {
