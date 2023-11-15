@@ -6,29 +6,25 @@ if [[ $EUID -ne 0 ]]; then
     exit 1
 fi
 
-# Define the log file path and name
-LOG_FILE="kitty_installation.log"
-
 # Check if kitty is already installed
 if command -v kitty &>/dev/null; then
-    echo "Kitty is already installed." | tee -a "$LOG_FILE"
+    echo "Kitty is already installed."
     exit 0
 fi
 
+# Install kitty
 curl -L https://sw.kovidgoyal.net/kitty/aptk.gpg | sudo gpg --dearmor -o /usr/share/keyrings/kovidgoyal-archive-keyring.gpg
 echo 'deb [signed-by=/usr/share/keyrings/kovidgoyal-archive-keyring.gpg] https://sw.kovidgoyal.net/kitty/nightly/apt buster main' | tee /etc/apt/sources.list.d/kitty.list
 apt update
 apt install kitty -y
 
-
-# Add a symbolic link to use kitty as default terminal
+# Set kitty as default terminal
 update-alternatives --set x-terminal-emulator "$(which kitty)"
 
-# Print installation status and version information to both terminal and log file
-{
-    echo "Kitty Installation Complete"
-    echo -e "\nKitty Version:"
-    kitty --version
-} | tee -a "$LOG_FILE"
+# Remove the repo after installation
+rm -rf /kitty
 
-echo "Kitty installation complete. Log saved to $LOG_FILE."
+# Print installation status and version information to terminal
+echo "Kitty Installation Complete"
+echo -e "\nKitty Version:"
+kitty --version
