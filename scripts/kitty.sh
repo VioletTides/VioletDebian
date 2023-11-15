@@ -15,11 +15,9 @@ if command -v kitty &>/dev/null; then
     exit 0
 fi
 
-# Update package lists
-sudo apt update
-
-# Install dependencies
-sudo apt install -y \
+# Update package lists and install necessary dependencies including OpenSSL
+apt update
+apt install -y \
     git \
     build-essential \
     cmake \
@@ -34,7 +32,8 @@ sudo apt install -y \
     libxkbcommon-x11-dev \
     libwayland-dev \
     libwayland-cursor0 \
-    libwayland-egl1
+    libwayland-egl1 \
+    libssl-dev
 
 # Clone the kitty repository from GitHub
 git clone https://github.com/kovidgoyal/kitty.git
@@ -42,10 +41,10 @@ cd kitty
 
 # Install kitty
 make
-sudo make install
+make install
 
 # Add a symbolic link to use kitty as default terminal
-sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator $(which kitty) 50
+update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator $(which kitty) 50
 
 # Print installation status and version information to both terminal and log file
 {
