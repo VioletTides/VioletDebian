@@ -21,7 +21,7 @@ rustup override set stable
 rustup update stable
 
 # Install Alacritty dependencies
-apt install cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
+apt install cargo cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
     
 # Build Alacritty
 cargo build --release
