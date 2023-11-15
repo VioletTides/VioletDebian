@@ -99,8 +99,8 @@ install_kitty() {
     # Remove the repo after installation
     rm -rf /kitty
 
-    # Copy config files
-    sudo cp "$REPO_DIR/config/kitty" "$CONFIG_DIR/kitty"
+    # Copy config and themes etc
+    cp -r "$REPO_DIR/config/kitty" "$CONFIG_DIR"
     
     # Print installation status and version information to terminal
     echo "Kitty Installation Complete"
