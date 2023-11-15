@@ -115,11 +115,12 @@ install_fonts() {
     rm ./Mononoki.zip
 }
 
-install_fonts
-#install_suckless
-#install_kitty
+
+install_suckless
+install_kitty
 #install_ranger
 #install_vim
+#install_fonts
 chown $username:$username $FONTDIR*
 
 echo "Setup Complete!"
