@@ -1,34 +1,27 @@
 #!/bin/bash
-# Get the directory where the script resides
-SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
+
+# Check if Script is Run as Root
+if [[ $EUID -ne 0 ]]; then
+  echo "You must be a root user to run this script, please run sudo ./install.sh" 2>&1
+  exit 1
+fi
+
+username=$(id -u -n 1000)
 # Set REPO_DIR relative to the script directory
-REPO_DIR="$SCRIPT_DIR/.."
-
-CONFIG_DIR="$HOME/.config" # The directory where config files are stored
-FONT_DIR="/usr/share/fonts" # The directory where fonts are stored
-SUCKLESS_DIR="$HOME/.suckless" # The directory where suckless programs are stored
-XINITRC_DIR="$HOME" # The directory where the .xinitrc file is stored
-XSESSIONS_DIR="/usr/share/xsessions/" # The directory where the .desktop files are stored
+REPO_DIR=$(PWD)
 ALACRITTY_DIR="$HOME/.config/alacritty" # The directory where the Alacritty config file is stored
-VIM_DIR="$HOME" # The directory where the Vim config file is stored
-RANGER_DIR="$HOME/.config/ranger" # The directory where the Ranger config files are stored
 
+git clone https://github.com/alacritty/alacritty.git
+cd alacritty
 
 # Install Rust using rustup
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
-# Add Rust to PATH (this might be needed to use Rust immediately in the script)
 source $HOME/.cargo/env
+rustup override set stable
+rustup update stable
 
 # Install Alacritty dependencies
-sudo apt-get install -y cmake cargo pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev python3
-
-# Clone Alacritty repository
-cd "$REPO_DIR" || exit
-git clone https://github.com/alacritty/alacritty.git
-
-# Build and install Alacritty
-cd alacritty || exit
+apt install cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
     
 # Build Alacritty
 cargo build --release

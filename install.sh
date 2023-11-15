@@ -1,9 +1,19 @@
 #!/bin/bash
 
-# Get the directory where the script resides
-SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
+# Check if Script is Run as Root
+if [[ $EUID -ne 0 ]]; then
+  echo "You must be a root user to run this script, please run sudo ./install.sh" 2>&1
+  exit 1
+fi
+
+username=$(id -u -n 1000)
 # Set REPO_DIR relative to the script directory
-REPO_DIR="$SCRIPT_DIR/.."
+REPO_DIR=$(PWD)
+
+apt update
+apt upgrade -y
+
+cd $REPO_DIR
 
 CONFIG_DIR="$HOME/.config" # The directory where config files are stored
 FONT_DIR="/usr/share/fonts" # The directory where fonts are stored
