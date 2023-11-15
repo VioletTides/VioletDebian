@@ -29,7 +29,7 @@ mkdir -p /home/$username/Pictures
 mkdir -p /home/$username/Pictures/backgrounds
 
 # Install basics
-apt-get install -y feh picom curl zsh wget firefox pulseaudio unzip
+apt-get install -y feh picom curl zsh wget firefox-esr pulseaudio unzip
 
 # Set Zsh as the default shell
 chsh -s "$(which zsh)"
@@ -98,6 +98,9 @@ install_kitty() {
     
     # Remove the repo after installation
     rm -rf /kitty
+
+    # Copy config files
+    sudo cp "$REPO_DIR/config/kitty" "$CONFIG_DIR/kitty"
     
     # Print installation status and version information to terminal
     echo "Kitty Installation Complete"
@@ -160,6 +163,13 @@ chown -R $username:$username /home/$username
 chown $username:$username $FONTDIR*
 
 cd /home/$username
+
+# Build dwm again
+cd /$SUCKLESS_DIR/dwm || { echo "Failed to cd into dwm"; exit 1; }
+make clean install || { echo "Failed to build and install dwm"; exit 1; }
+# Build dmenu again
+cd /$SUCKLESS_DIR/dmenu || { echo "Failed to cd into dmenu"; exit 1; }
+make clean install || { echo "Failed to build and install dmenu"; exit 1; }
 
 echo "Setup Complete!"
 sudo reboot now
