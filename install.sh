@@ -117,12 +117,10 @@ install_fonts() {
 
 install_fonts
 #install_suckless
-install_kitty
+#install_kitty
 #install_ranger
 #install_vim
-
-chown -R $username:$username /$HOME/$username
-chown $username:$username /home/$username/.fonts/*
+chown $username:$username $FONTDIR*
 
 echo "Setup Complete!"
 startx
