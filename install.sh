@@ -13,8 +13,6 @@ REPO_DIR=$(pwd)
 apt update
 apt upgrade -y
 
-cd $REPO_DIR
-
 CONFIG_DIR="$HOME/.config" # The directory where config files are stored
 FONT_DIR="$HOME/$username/fonts" # The directory where fonts are stored
 SUCKLESS_DIR="$HOME/.suckless" # The directory where suckless programs are stored
@@ -26,7 +24,7 @@ RANGER_DIR="$HOME/.config/ranger" # The directory where the Ranger config files 
 
 
 # Install basics
-apt-get install -y curl zsh wget firefox-esr pulseaudio
+apt-get install -y feh picom curl zsh wget firefox-esr pulseaudio unzip
 
 # Set Zsh as the default shell
 chsh -s "$(which zsh)"
