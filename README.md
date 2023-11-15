@@ -7,4 +7,4 @@ cd ~
 sudo apt install git
 git clone https://github.com/VioletTides/VioletDebian.git
 cd VioletDebian
-sudo ./install.sh
+sudo bash install.sh
