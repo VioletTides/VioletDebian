@@ -28,10 +28,8 @@ mkdir -p $RANGER_DIR
 mkdir -p /home/$username/Pictures   
 mkdir -p /home/$username/Pictures/backgrounds
 
-chown -R $username:$username /home/$username
-
 # Install basics
-apt-get install -y feh picom curl zsh wget firefox-esr pulseaudio unzip
+apt-get install -y feh picom curl zsh wget firefox pulseaudio unzip
 
 # Set Zsh as the default shell
 chsh -s "$(which zsh)"
@@ -59,7 +57,7 @@ install_suckless() {
     #cp "$REPO_DIR/config/suckless/dmenu/config.h" "$SUCKLESS_DIR/dmenu/config.h" || { echo "Failed to copy dmenu config.h"; exit 1; }
 
     # Install dependencies for xorg
-    apt-get install -y xorg xserver-xorg xserver-xorg-core xserver-xorg-video-intel xinit x11-xserver-utils
+    apt-get install -y xorg xserver-xorg xserver-xorg-core xserver-xorg-video-intel xorg-xinit x11-xserver-utils
 
     mkdir -p "$XSESSIONS_DIR" || { echo "Failed to make the .desktop directory"; exit 1; }
 
@@ -126,6 +124,7 @@ install_kitty
 #install_ranger
 #install_vim
 #install_fonts
+chown -R $username:$username /home/$username
 chown $username:$username $FONTDIR*
 
 cd /home/$username
