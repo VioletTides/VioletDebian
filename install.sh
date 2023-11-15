@@ -8,7 +8,7 @@ fi
 
 username=$(id -u -n 1000)
 # Set REPO_DIR relative to the script directory
-REPO_DIR=$(PWD)
+REPO_DIR=$(pwd)
 
 apt update
 apt upgrade -y

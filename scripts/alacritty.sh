@@ -8,7 +8,7 @@ fi
 
 username=$(id -u -n 1000)
 # Set REPO_DIR relative to the script directory
-REPO_DIR=$(PWD)
+REPO_DIR=$(pwd)
 ALACRITTY_DIR="$HOME/.config/alacritty" # The directory where the Alacritty config file is stored
 
 git clone https://github.com/alacritty/alacritty.git
