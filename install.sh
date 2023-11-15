@@ -99,7 +99,7 @@ install_ranger() {
     sudo apt-get install -y ranger w3m-img highlight atool poppler-utils mediainfo
     # Configure Ranger
     sudo mkdir -p "$RANGER_DIR"
-    sudo cp "$REPO_DIR/config/ranger/rc.conf" "$RANGER_DIR/rc.conf"
+    #sudo cp "$REPO_DIR/config/ranger/rc.conf" "$RANGER_DIR/rc.conf"
 }
 
 ### INSTALL AND CONFIGURE VIM ###
@@ -142,13 +142,13 @@ install_fonts() {
 
 install_suckless
 install_kitty
-#install_ranger
+install_ranger
 install_vim
-#install_fonts
+install_fonts
 chown -R $username:$username /home/$username
 chown $username:$username $FONTDIR*
 
 cd /home/$username
 
 echo "Setup Complete!"
-startx
+sudo reboot now
