@@ -1,7 +1,9 @@
 /* See LICENSE file for copyright and license details. */
 
+#include <X11/XF86keysym.h>
+
 /* appearance */
-static const unsigned int borderpx  = 4;        /* border pixel of windows */
+static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int gappx     = 6;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
@@ -59,7 +61,20 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "kitty", NULL };
+static const char *termcmd[]  = { "alacritty", NULL };
+
+#define BRIGHTNESS_STEP 50  // Adjust brightness step as needed
+#define LED_PATH "/sys/class/leds/"
+static const char* volume_up_cmd[] = { "amixer", "set", "Master", "5%+", NULL };
+static const char* volume_down_cmd[] = { "amixer", "set", "Master", "5%-", NULL };
+static const char* mute_toggle_cmd[] = { "amixer", "set", "Master", "toggle", NULL };
+static const char* mute_toggle_led_cmd[] = { "/bin/sh", "-c", "echo $(($(cat /sys/class/leds/platform::mute/brightness) ^ 1)) | sudo tee /sys/class/leds/platform::mute/brightness", NULL };
+
+static const char* mic_toggle_cmd[] = { "amixer", "set", "Capture", "toggle", NULL };
+static const char* mic_toggle_led_cmd[] = { "/bin/sh", "-c", "echo $(($(cat /sys/class/leds/platform::mute/brightness) ^ 1)) | sudo tee /sys/class/leds/platform::mute/brightness", NULL };
+
+static const char* brightness_up_cmd[] = { "brightnessctl", "set", "10%+", NULL };
+static const char* brightness_down_cmd[] = { "brightnessctl", "set", "10%-", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -96,6 +111,20 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	
+	// Volume Control
+        { 0, XF86XK_AudioLowerVolume, spawn, {.v = volume_down_cmd } },
+        { 0, XF86XK_AudioRaiseVolume, spawn, {.v = volume_up_cmd } },
+        { 0, XF86XK_AudioMute, spawn, {.v = mute_toggle_cmd } },
+        { 0, XF86XK_AudioMute, spawn, {.v = mute_toggle_led_cmd } }, // This line may conflict with the next mic_toggle_cmd line
+
+        // Mic Control
+        { 0, XF86XK_AudioMicMute, spawn, {.v = mic_toggle_cmd } },
+        { 0, XF86XK_AudioMicMute, spawn, {.v = mic_toggle_led_cmd } }, // This line might conflict with the previous mute_toggle_cmd line
+
+        // Brightness Control
+        { 0, XF86XK_MonBrightnessUp, spawn, {.v = brightness_up_cmd } },
+        { 0, XF86XK_MonBrightnessDown, spawn, {.v = brightness_down_cmd } },
 };
 
 /* button definitions */
