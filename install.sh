@@ -29,7 +29,7 @@ mkdir -p /home/$username/Pictures
 mkdir -p /home/$username/Pictures/backgrounds
 
 # Install basics
-apt-get install -y feh picom curl zsh wget firefox-esr pulseaudio unzip
+apt-get install -y feh picom curl zsh wget firefox-esr pulseaudio unzip flameshot
 
 # Set Zsh as the default shell
 chsh -s "$(which zsh)"
