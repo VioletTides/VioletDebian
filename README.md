@@ -1,5 +1,5 @@
 # Violet Debian
-
+![logo](https://github.com/VioletTides/VioletDebian/blob/main/readme_assets/logo.svg)
 Violet Debian is my WIP minimal debian install using dwm!
 
 ## Installation
