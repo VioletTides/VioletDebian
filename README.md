@@ -1,5 +1,5 @@
 # Violet Debian
-<img src="https://github.com/VioletTides/VioletDebian/raw/main/readme_assets/logo.svg" alt="logo" style="max-width: 250px;">
+<img src="https://github.com/VioletTides/VioletDebian/raw/main/readme_assets/logo.svg" alt="logo" width="250">
 
 Violet Debian is my WIP minimal debian install using dwm!
 
